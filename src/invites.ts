@@ -2,6 +2,7 @@ import { invites, users } from "./data";
 export function acceptInvite(token: string) {
   const invite = invites.find((i) => i.token === token);
   if (!invite) throw new Error("invite not found");
+  if (invite.expiresAt <= Date.now()) throw new Error("invite expired");
   const user = {
     id: `u_${Date.now()}`,
     email: invite.email,
